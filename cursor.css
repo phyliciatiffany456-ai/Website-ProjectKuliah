@@ -1,0 +1,80 @@
+<!-- ===================== -->
+<!-- Custom Cursor Element -->
+<!-- ===================== -->
+<div class="cursor"></div>
+<div class="cursor-trail"></div>
+
+<style>
+  body {
+    cursor: none; /* sembunyikan kursor default */
+    overflow-x: hidden;
+    background-color: #0b0c10; /* biar kontras */
+  }
+
+  /* Lingkaran utama */
+  .cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: rgba(197, 164, 109, 0.9); /* gold elegan */
+    box-shadow: 0 0 20px rgba(197, 164, 109, 0.5);
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    z-index: 10000;
+  }
+
+  /* Efek trail (bayangan halus mengikuti cursor) */
+  .cursor-trail {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle,
+      rgba(197, 164, 109, 0.25) 0%,
+      rgba(197, 164, 109, 0) 70%
+    );
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+  }
+
+  /* Hover effect (misal saat hover tombol / link) */
+  a:hover ~ .cursor,
+  button:hover ~ .cursor {
+    transform: translate(-50%, -50%) scale(1.6);
+    background: rgba(197, 164, 109, 0.4);
+    box-shadow: 0 0 35px rgba(197, 164, 109, 0.8);
+  }
+</style>
+
+<!-- GSAP for smooth motion -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+<script>
+  const cursor = document.querySelector(".cursor");
+  const trail = document.querySelector(".cursor-trail");
+
+  document.addEventListener("mousemove", (e) => {
+    // Cursor utama (cepat)
+    gsap.to(cursor, {
+      duration: 0.15,
+      x: e.clientX,
+      y: e.clientY,
+      ease: "power2.out"
+    });
+
+    // Trail (lebih lambat untuk efek "bayangan")
+    gsap.to(trail, {
+      duration: 0.4,
+      x: e.clientX,
+      y: e.clientY,
+      ease: "power3.out"
+    });
+  });
+</script>
